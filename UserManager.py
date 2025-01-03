@@ -42,12 +42,14 @@ class UserManager(Module):
         self._users[username]=user
 
     def __add_user(self,username,user):
-        command = ["useradd","-s",user["shell"],"-c",user["comment"],"-u",user["uid"]]
+        command = ["useradd","-s",user["shell"],"-c",user["comment"]]
         if user["home"]:
             command+=["-m"]
             command+=["-d",user["home"]]
         if len(user["groups"])>1:
             command=command+["-G"]+user["groups"]
+        if user["uid"]:
+            command+=["-u",user["uid"]]
         command+=[username]
         print(command)
         prg(command)
