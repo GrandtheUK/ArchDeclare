@@ -78,6 +78,7 @@ class UserManager(Module):
     def after_update(self):
         # Get difference in configuration.
         diff = DeepDiff(self._usersprev,self._users)
+        print(self._users)
         
         for value in diff.get("dictionary_item_added",{}):
             matches = re.findall(r"\['(.*?)'\]", value)
