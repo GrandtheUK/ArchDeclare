@@ -74,7 +74,7 @@ class UserManager(Module):
         # Get difference in configuration.
         diff = DeepDiff(self._users,self._usersprev)
         
-        for value in diff.get("dictionary_item_added"):
+        for value in diff.get("dictionary_item_added",{}):
             matches = re.findall(r"\['(.*?)'\]", value)
             user = self._users.get(matches[0])
             self.__add_user(user)
@@ -82,13 +82,13 @@ class UserManager(Module):
             prg(["pkexec","passwd",value])
 
         
-        for value in diff.get("dictionary_item_removed"):
+        for value in diff.get("dictionary_item_removed",{}):
             matches = re.findall(r"\['(.*?)'\]", value)
             prg(["userdel",matches[0]])
             print("Removed user", matches[0]+". Manual intervention required for home folder")
 
         
-        for value,new_dict in diff.get("values_changed").items():
+        for value,new_dict in diff.get("values_changed",[]).items():
             matches = re.findall(r"\['(.*?)'\]", value)
             new_value = new_dict.get("new_value")
             username = matches[0]
@@ -110,7 +110,7 @@ class UserManager(Module):
                     exit(1)
 
         
-        for value,group in diff.get("iterable_item_added").items():
+        for value,group in diff.get("iterable_item_added",[]).items():
             matches = re.findall(r"\['(.*?)'\]", value)
             match matches[1]:
                 case "groups":
@@ -120,7 +120,7 @@ class UserManager(Module):
                     print("Something has gone wrong")
                     exit(1)
 
-        for value,new_dict in diff.get("iterable_item_removed").items():
+        for value,new_dict in diff.get("iterable_item_removed",[]).items():
             matches = re.findall(r"\[(.*?)\]", value)
             value = new_dict.get("i ")
             match matches[1]:
