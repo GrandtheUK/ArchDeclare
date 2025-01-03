@@ -35,7 +35,7 @@ def toml_to_decman_user_package(toml_dict) -> decman.UserPackage:
                               make_dependencies=toml_dict.get("make_dependencies"),
                               check_dependencies=toml_dict.get("check_dependencies"))
 
-def toml_to_decman_user_manager(username,toml_dict):
+def toml_to_decman_user(username,toml_dict):
     groups=toml_dict.get("groups",[])
     shell=toml_dict.get("shell",None)
     home=toml_dict.get("home",None)
