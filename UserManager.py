@@ -7,11 +7,18 @@ class UserManager(Module):
 
     def __init__(self):
         super().__init__(name="UserManager", enabled=True, version="1")
-        prg(["mkdir",""])
-        with open("/etc/UserMan/users.json",'r') as file:
-            self._usersprev = json.load(file)
+        try:
+            with open("/etc/UserMan/users.json",'r') as file:
+                self._usersprev = json.load(file)
+        except IOError:
+            prg(["mkdir","-p","/etc/UserMan"])
+            prg(["touch","/etc/UserMan/users.json"])
+            self._usersprev = {}
+
 
     def on_enable(self):
+        prg(["mkdir","-p","/etc/UserMan"])
+
         print("Decman is now managing users")
 
     def on_disable(self):
