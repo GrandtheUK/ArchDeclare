@@ -39,7 +39,7 @@ def toml_to_decman_user(username,toml_dict):
     groups=toml_dict.get("groups",[])
     shell=toml_dict.get("shell","/bin/bash")
     home=toml_dict.get("home",None)
-    comment=toml_dict.get("comment","")
+    comment=toml_dict.get("comment",None)
     uid=toml_dict.get("uid",None)
     user = {
             "groups":[username]+groups,
