@@ -26,7 +26,7 @@ class UserManager(Module):
         print("Decman is no longer managing users. You're on your own from here")
 
     def add_user(self,username,uid,shell="/bin/bash",groups=[],fullname="",home=None):
-        username=lower(username)
+        username=username.lower()
         users=self._users.items()
         for user,config in users:
             if user==username:
