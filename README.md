@@ -1,5 +1,5 @@
 # ArchDeclare
-A script to setup arch in a declarative manner using (Decman)[https://github.com/kiviktnm/decman]
+A script to setup arch in a declarative manner using [Decman](https://github.com/kiviktnm/decman)
 
 # Usage
 Clone this repo to an installation medium, copy `decman.toml.example` to `decman.toml` and configure to your required setup, mount your partitions and run setup.sh
