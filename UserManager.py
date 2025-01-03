@@ -42,7 +42,7 @@ class UserManager(Module):
         self._users[username]=user
 
     def __add_user(self,username,user):
-        command = ["useradd","-s",user[username]["shell"],"-c",user[username]["comment"],"-u",user[username]["uid"]]
+        command = ["useradd","-s",user["shell"],"-c",user["comment"],"-u",user["uid"]]
         if user.home:
             command+=["-m"]
             command+=["-d",user.home]
