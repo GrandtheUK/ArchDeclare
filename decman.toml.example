@@ -8,7 +8,8 @@ packages = [
     "nano",
     "refind",
     "sddm,
-    "plasma-desktop"
+    "plasma-desktop",
+    "git"
 ]
 aur_packages = [
     "",
