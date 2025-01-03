@@ -1,6 +1,7 @@
 from decman import Module, prg, sh
 from deepdiff import DeepDiff
 import pwd, grp, json, re
+from json import JSONDecodeError
 
 class UserManager(Module):
     
