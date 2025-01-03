@@ -10,7 +10,7 @@ class UserManager(Module):
         try:
             with open("/etc/UserMan/users.json",'r') as file:
                 self._usersprev = json.load(file)
-        except IOError:
+        except JSONDecodeError:
             prg(["mkdir","-p","/etc/UserMan"])
             prg(["touch","/etc/UserMan/users.json"])
             self._usersprev = {}
