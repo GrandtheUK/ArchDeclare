@@ -15,6 +15,7 @@ class UserManager(Module):
             prg(["mkdir","-p","/etc/UserMan"])
             prg(["touch","/etc/UserMan/users.json"])
             self._usersprev = {}
+        self._users = {}
 
 
     def on_enable(self):
