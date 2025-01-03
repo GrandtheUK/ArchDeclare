@@ -77,7 +77,7 @@ class UserManager(Module):
         for value in diff.get("dictionary_item_added",{}):
             matches = re.findall(r"\['(.*?)'\]", value)
             user = self._users.get(matches[0])
-            self.__add_user(user)
+            self.__add_user(matches[0],user)
             print("Added user", matches[0])
             prg(["pkexec","passwd",value])
 
