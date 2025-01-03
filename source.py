@@ -74,7 +74,7 @@ for toml_user_package_dec in toml_source.get("user_packages", []):
     decman.user_packages.append(toml_to_decman_user_package(toml_user_package_dec))
 
 for username, toml_user in toml_source.get("users",{}).items():
-    user=toml_to_decman_user(sername,toml_user)
+    user=toml_to_decman_user(username,toml_user)
     decman.modules.UserManager.add_user(username,
     user["uid"],
     user["shell"],
