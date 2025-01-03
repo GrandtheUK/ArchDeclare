@@ -33,7 +33,7 @@ class UserManager(Module):
             if user==username:
                 return
         user = {
-            "groups":[username]+groups,
+            "groups":groups,
             "shell": shell,
             "comment": fullname,
             "home": home,
@@ -47,7 +47,7 @@ class UserManager(Module):
             command+=["-m"]
             command+=["-d",user["home"]]
         if len(user["groups"])>1:
-            command=command+["-G"]+user["groups"]
+            command=command+["-G"]+[",".join(user["groups"])]
         if user["comment"]:
             command+=["-c",user["comment"]]
         if user["uid"]:
