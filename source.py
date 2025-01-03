@@ -79,5 +79,5 @@ for username, toml_user in toml_source.get("users",{}).items():
     user["uid"],
     user["shell"],
     user["groups"],
-    user["fullname"],
+    user["comment"],
     user["home"])
