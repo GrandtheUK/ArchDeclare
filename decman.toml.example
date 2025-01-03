@@ -36,7 +36,7 @@ user_packages = [
 [users]
 [users."grand"]
 shell = "/bin/bash"
-groups = "wheel"
+groups = ["wheel"]
 home = "/home/grand"
 
 
