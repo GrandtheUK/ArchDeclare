@@ -79,6 +79,8 @@ class UserManager(Module):
         # Get difference in configuration.
         diff = DeepDiff(self._usersprev,self._users)
         print(self._users)
+        groups_updates=False
+        group_update_users=[]
         
         for value in diff.get("dictionary_item_added",{}):
             matches = re.findall(r"\['(.*?)'\]", value)
@@ -94,48 +96,82 @@ class UserManager(Module):
             print("Removed user", matches[0]+". Manual intervention required for home folder")
 
         
-        for value,new_dict in diff.get("values_changed",[]).items():
-            matches = re.findall(r"\['(.*?)'\]", value)
-            new_value = new_dict.get("new_value")
-            username = matches[0]
-            match matches[1]:
+        for value in diff.get("values_changed",[]):
+            keys = re.findall(r"\['(.*?)'\]", value)
+            index = int(re.findall(r"\[(.*?)\]", value)[2])
+            # new_value = new_dict.get("new_value")
+            new_value = self._users[username][keys[1]][index]
+            username = keys[0]
+            match keys[1]:
                 case "shell":
-                    print("new shell for", matches[0],":",dic.get("new_value"))
+                    print("new shell for", username,":",dic.get("new_value"))
                     prg(["usermod","-s",new_value,username])
                 case "comment":
-                    print("new comment for", matches[0],":",new_dict.get("new_value"))
+                    print("new comment for", username,":",new_dict.get("new_value"))
                     prg(["usermod","-c",new_value,username])
                 case "uid":
-                    print("new uid for", matches[0],":",new_dict.get("new_value"))
+                    print("new uid for", username,":",new_dict.get("new_value"))
                     prg(["usermod","-u",new_value,username])
                 case "create-home":
-                    print("changed create-home for", matches[0],":",new_dict.get("new_value"))
+                    print("changed create-home for", username,":",new_dict.get("new_value"))
                     prg(["usermod","-m",new_value,username])
+                case "groups":
+                    groups_updates=True
+                    if username not in group_update_users:
+                        group_update_users.append(username)
                 case _:
                     print("Something has gone wrong")
                     exit(1)
 
         
-        for value,group in diff.get("iterable_item_added",[]).items():
-            matches = re.findall(r"\['(.*?)'\]", value)
-            match matches[1]:
-                case "groups":
-                    print("new group for", matches[0],":",group)
-                    prg(["gpasswd","-a",username,group])
-                case _:
-                    print("Something has gone wrong")
-                    exit(1)
+        for value in diff.get("iterable_item_added",[]):
+            # matches = re.findall(r"\['(.*?)'\]", value)
+            keys = re.findall(r"\['(.*?)'\]", value)
+            index = int(re.findall(r"\[(.*?)\]", value)[2])
+            # new_value = new_dict.get("new_value")
+            username = keys[0]
+            new_value = d[username][keys[1]][index]
 
-        for value,new_dict in diff.get("iterable_item_removed",[]).items():
-            matches = re.findall(r"\[(.*?)\]", value)
-            value = new_dict.get("i ")
-            match matches[1]:
-                case "'groups'":
-                    print("removed group for", matches[0],":",item,matches[2])
-                    prg(["gpasswd","-d",username,group])
+            match keys[1]:
+                case "groups":
+                    # group = self._users[keys[0]]["groups"][index]
+                    # print("new group for", matchess[0],":",group)
+                    # prg(["gpasswd","-a",username,group])
+                    groups_updates=True
+                    if username not in group_update_users:
+                        group_update_users.append(username)
+
                 case _:
                     print("Something has gone wrong")
                     exit(1)
+        
+
+        for value in diff.get("iterable_item_removed",[]):
+            keys = re.findall(r"\['(.*?)'\]", value)
+            index = int(re.findall(r"\[(.*?)\]", value)[2])
+            username = keys[0]
+            removed_value = [username][keys[1]][index]
+
+            match keys[1]:
+                case "groups":
+                    # print("removed group for", username,":",removed_value)
+                    # prg(["gpasswd","-d",username,removed_value])
+                    groups_updates=True
+                    if username not in group_update_users:
+                        group_update_users.append(username)
+                case _:
+                    print("Something has gone wrong")
+                    exit(1)
+        
+        # group management
+        if (groups_updates):
+            for username in group_update_users:
+                #groups to remove
+                for group in list(set(self._usersprev[username]['groups']) - set(self._users[username]['groups'])):
+                    prg(["gpasswd","-d",username,group])
+                #groups to add
+                for group in list(set(self._userprev[username]['groups']) - set(self._users[username]['groups'])):
+                    prg(["gpasswd","-a",username,group])
         
         with open("/etc/UserMan/users.json",'w') as file:
             text=json.dumps(self._users)
