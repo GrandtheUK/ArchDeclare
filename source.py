@@ -44,7 +44,7 @@ def toml_to_decman_user(username,toml_dict):
     user = {
             "groups":[username]+groups,
             "shell": shell,
-            "comment": fullname,
+            "comment": comment,
             "home": home,
             "uid":uid
         }
