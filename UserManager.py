@@ -72,10 +72,9 @@ class UserManager(Module):
     
     def after_update(self):
         # Get difference in configuration.
-        diff = DeepDiff(self._users,self._usersprev)
+        diff = DeepDiff(self._usersprev,self._users)
         
         for value in diff.get("dictionary_item_added",{}):
-            print("NEW USER")
             matches = re.findall(r"\['(.*?)'\]", value)
             user = self._users.get(matches[0])
             self.__add_user(user)
@@ -84,7 +83,6 @@ class UserManager(Module):
 
         
         for value in diff.get("dictionary_item_removed",{}):
-            print("User to delete")
             matches = re.findall(r"\['(.*?)'\]", value)
             prg(["userdel",matches[0]])
             print("Removed user", matches[0]+". Manual intervention required for home folder")
