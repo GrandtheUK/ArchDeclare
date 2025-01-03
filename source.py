@@ -42,7 +42,7 @@ def toml_to_decman_user(username,toml_dict):
     comment=toml_dict.get("comment",None)
     uid=toml_dict.get("uid",None)
     user = {
-            "groups":[username]+groups,
+            "groups": groups,
             "shell": shell,
             "comment": comment,
             "home": home,
