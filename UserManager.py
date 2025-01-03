@@ -45,9 +45,9 @@ class UserManager(Module):
         command = ["useradd","-s",user["shell"],"-c",user["comment"],"-u",user["uid"]]
         if user["home"]:
             command+=["-m"]
-            command+=["-d",user.home]
+            command+=["-d",user["home"]]
         if len(user["groups"])>1:
-            command=command+["-G"]+groups
+            command=command+["-G"]+user["groups"]
         command+=[username]
         prg(command)
 
