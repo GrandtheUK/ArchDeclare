@@ -33,15 +33,13 @@ class UserManager(Module):
             if user==username:
                 return
         user = {
-            username: {
-                "groups":[username]+groups,
-                "shell": shell,
-                "comment": fullname,
-                "home": home,
-                "uid":uid
-            }
+            "groups":[username]+groups,
+            "shell": shell,
+            "comment": fullname,
+            "home": home,
+            "uid":uid
         }
-        self._users+=user
+        self._users[username]=user
 
     def __add_user(self,username,user):
         command = ["useradd","-s",user[username]["shell"],"-c",user[username]["comment"],"-u",user[username]["uid"]]
