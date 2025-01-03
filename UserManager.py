@@ -51,7 +51,7 @@ class UserManager(Module):
         if user["comment"]:
             command+=["-c",user["comment"]]
         if user["uid"]:
-            command+=["-u",user["uid"]]
+            command+=["-u",str(user["uid"])]
         command+=[username]
         print(command)
         prg(command)
