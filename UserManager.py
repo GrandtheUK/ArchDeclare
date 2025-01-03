@@ -138,4 +138,5 @@ class UserManager(Module):
                     exit(1)
         
         with open("/etc/UserMan/users.json",'w') as file:
-            json.dump(self._users,file)
+            text=json.dumps(self._users)
+            file.write(text)
