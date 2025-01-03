@@ -1,0 +1,44 @@
+packages = [
+    "base",
+    "linux", 
+    "linux-zen", 
+    "linux-headers", 
+    "linux-zen-headers", 
+    "linux-firmware",
+    "nano",
+    "refind",
+    "sddm,
+    "plasma-desktop"
+]
+aur_packages = [
+    "",
+]
+enabled_systemd_units = [
+    "sddm"
+]
+ignored_packages = []
+user_packages = [
+    {
+        pkgname="decman-git",
+        provides=["decman"],
+        version="0.3.1",
+        dependencies=["python", "python-requests", "devtools", "pacman", "systemd", "git"],
+        make_dependencies=["python-setuptools", "python-build", "python-installer", "python-wheel"],
+        git_url="https://github.com/kiviktnm/decman-pkgbuild.git"
+    }
+]
+
+[files]
+'/etc/vconsole.conf' = { content="KEYMAP=uk" }
+
+[directories]
+
+[users]
+[users."grand"]
+shell = "/bin/bash"
+groups = "wheel"
+home = "/home/grand"
+
+
+[enabled_systemd_user_units]
+grand = []
