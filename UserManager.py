@@ -48,7 +48,7 @@ class UserManager(Module):
             command+=["-d",user["home"]]
         if len(user["groups"])>1:
             command=command+["-G"]+user["groups"]
-        if ser["comment"]:
+        if user["comment"]:
             command+=["-c",user["comment"]]
         if user["uid"]:
             command+=["-u",user["uid"]]
