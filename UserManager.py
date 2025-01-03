@@ -49,6 +49,7 @@ class UserManager(Module):
         if len(user["groups"])>1:
             command=command+["-G"]+user["groups"]
         command+=[username]
+        print(command)
         prg(command)
 
     def add_group(self,username,group):
