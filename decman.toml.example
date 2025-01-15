@@ -1,23 +1,31 @@
-packages = [
+enabled_systemd_units = [
+    "sddm"
+]
+
+[packages]
+base = [
     "base",
     "linux", 
     "linux-zen", 
     "linux-headers", 
     "linux-zen-headers", 
     "linux-firmware",
-    "nano",
     "refind",
-    "sddm,
+]
+desktop = [
+    "sddm",
     "plasma-desktop",
-    "git"
+    "konsole",
+    "plasma-nm"
 ]
-aur_packages = [
-    "",
+utils = [
+    "git",
+    "less",
+    "nano"
 ]
-enabled_systemd_units = [
-    "sddm"
-]
+
 ignored_packages = []
+aur_packages = []
 user_packages = [
     {
         pkgname="decman-git",
